@@ -1,0 +1,7 @@
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/service/AuthenticationService.java
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/Main.java
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/controller/AuthenticationController.java
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/model/SimpleResponse.java
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/tokens/JWTGenerator.java
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/model/Token.java
+/home/johanlorentzon/codestuff/relativelysocial/backend/auth-service/src/main/java/com/lorentzonsolutions/relativelysocial/authservice/model/AuthException.java
