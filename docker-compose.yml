@@ -47,5 +47,7 @@ services:
     image: nginx
     volumes:
       - ./frontend/relatively-frontend/:/usr/share/nginx/html
+      - /etc/ssl/certs/:/etc/nginx/certs:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d
     ports:
       - "8080:80"

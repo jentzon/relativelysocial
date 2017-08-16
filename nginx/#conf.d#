@@ -1,0 +1,20 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name server_domain_or_IP;
+    return 302 https://$server_name$request_uri;
+}
+
+server {
+    # SSL configuration
+
+    listen 443 ssl http2 www.relativelysocial.com
+    listen [::]:443 ssl http2 www.relativelysocial.com
+    include snippets/self-signed.conf;
+    include snippets/ssl-params.conf;
+
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name server_domain_or_IP;
+    return 302 https://$server_name$request_uri;
+}
