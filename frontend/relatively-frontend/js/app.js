@@ -4,7 +4,7 @@
 
 var relativelySocialApp = angular.module('relativelySocialApp', ['ngRoute', 'relativelySocialControllers']);
 
-relativelySocialApp.config(['$routeProvider', function($routeProvider) {
+relativelySocialApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
         when('/', {
             templateUrl: 'partials/main.html',
@@ -14,5 +14,7 @@ relativelySocialApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/login/login.html',
             controller: 'LoginCtrl'
     });
+
+    $locationProvider.html5Mode(false).hashPrefix('!');
 
 }]);
