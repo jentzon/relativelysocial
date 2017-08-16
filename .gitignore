@@ -19,6 +19,8 @@
 *.rar
 .idea/
 *.idea
+*.iml
+
 backend/apigateway/target
 backend/auth-service/target/
 backend/user-service/target/
