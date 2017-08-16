@@ -48,6 +48,7 @@ services:
     volumes:
       - ./frontend/relatively-frontend/:/usr/share/nginx/html
       - /etc/ssl/certs/:/etc/nginx/certs:ro
+      - /etc/ssl/private/:/etc/nginx/private:ro
       - ./nginx/conf.d:/etc/nginx/conf.d
     ports:
       - "80:80"
