@@ -1,9 +1,0 @@
-com/lorentzonsolutions/relativelysocial/authservice/tokens/JWTGenerator.class
-com/lorentzonsolutions/relativelysocial/authservice/model/AuthException.class
-com/lorentzonsolutions/relativelysocial/authservice/model/Token$1.class
-com/lorentzonsolutions/relativelysocial/authservice/Main.class
-com/lorentzonsolutions/relativelysocial/authservice/model/SimpleResponse.class
-com/lorentzonsolutions/relativelysocial/authservice/service/AuthenticationService.class
-com/lorentzonsolutions/relativelysocial/authservice/model/Token.class
-com/lorentzonsolutions/relativelysocial/authservice/model/Token$Builder.class
-com/lorentzonsolutions/relativelysocial/authservice/controller/AuthenticationController.class
