@@ -41,3 +41,11 @@ services:
     depends_on:
       - "consul"
       - "registrator"
+
+# ------ NGINX FRONTEND CONTAINER ----- #
+  web:
+    image: nginx
+    volumes:
+      - ./frontend/relatively-frontend/:/usr/share/nginx/html
+    ports:
+      - "8080:80"

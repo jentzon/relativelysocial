@@ -5,5 +5,9 @@
 var relativelySocialControllers = angular.module('relativelySocialControllers', []);
 
 relativelySocialControllers.controller('MainCtrl', ['$scope', function MainCtrl($scope) {
-    $scope.mainCtrlStatus = 'Main controller running...';
+    console.log('Main controller loaded...');
+}]);
+
+relativelySocialControllers.controller('LoginCtrl', ['$scope', function LoginCtrl($scope) {
+    console.log('Login controller loaded...');
 }]);

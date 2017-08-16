@@ -9,6 +9,10 @@ relativelySocialApp.config(['$routeProvider', function($routeProvider) {
         when('/', {
             templateUrl: 'partials/main.html',
             controller: 'MainCtrl'
+        })
+        .when('/login', {
+            templateUrl: 'partials/login/login.html',
+            controller: 'LoginCtrl'
     });
 
 }]);
