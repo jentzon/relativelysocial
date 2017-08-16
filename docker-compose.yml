@@ -50,4 +50,4 @@ services:
       - /etc/ssl/certs/:/etc/nginx/certs:ro
       - ./nginx/conf.d:/etc/nginx/conf.d
     ports:
-      - "8080:80"
+      - "80:80"
