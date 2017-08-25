@@ -1,5 +1,7 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.service;
 
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
+
 import static spark.Spark.*;
 
 /**
@@ -14,6 +16,10 @@ public class InitREST {
         get("/", (req, res) -> "Relatively Social APIGateway controller greets you!");
 
         get("/help", (req, res) -> "Help is on the way!");
+
+        get("/findservice", (req, res) -> {
+            return ServiceDiscovery.getInstance().findServiceAddress("auth-service");
+        });
 
     }
 }
