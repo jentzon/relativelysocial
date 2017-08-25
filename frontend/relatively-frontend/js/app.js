@@ -2,7 +2,11 @@
 
 // App module
 
-var relativelySocialApp = angular.module('relativelySocialApp', ['ngRoute', 'relativelySocialControllers']);
+var relativelySocialApp = angular.module('relativelySocialApp', [
+    'ngRoute',
+    'relativelySocialControllers',
+    'authService'
+]);
 
 relativelySocialApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
