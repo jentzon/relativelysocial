@@ -14,8 +14,8 @@ import java.net.URL;
  */
 public class ServiceDiscovery {
 
-    private static String allServicesAddress = "172.18.0.2:8500/v1/catalog/services";
-    private static String serviceAddress = "172.18.0.2:8500/v1/catalog/service/";
+    private static String allServicesAddress = "http://172.18.0.2:8500/v1/catalog/services";
+    private static String serviceAddress = "http://172.18.0.2:8500/v1/catalog/service/";
 
     private static ServiceDiscovery instance;
 
