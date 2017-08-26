@@ -21,5 +21,9 @@ public class InitREST {
             return ServiceDiscovery.getInstance().getAvailableServices();
         });
 
+        get("/findservice", (req, res) -> {
+           return ServiceDiscovery.getInstance().getService(req.params("servicename"));
+        });
+
     }
 }
