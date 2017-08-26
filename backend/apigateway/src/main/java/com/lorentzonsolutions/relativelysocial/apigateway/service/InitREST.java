@@ -17,8 +17,8 @@ public class InitREST {
 
         get("/help", (req, res) -> "Help is on the way!");
 
-        get("/findservice", (req, res) -> {
-            return ServiceDiscovery.getInstance().findServiceAddress("auth-service");
+        get("/listservices", (req, res) -> {
+            return ServiceDiscovery.getInstance().getAvailableServices();
         });
 
     }

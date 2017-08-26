@@ -1,10 +1,17 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Class for finding service IP in internal docker network.
@@ -27,8 +34,9 @@ public class ServiceDiscovery {
     }
 
     //TODO. Fix error message handling.
-    public String findServiceAddress(String serviceName) {
+    public String getAvailableServices() {
         StringBuilder address = new StringBuilder();
+        List<String> services = new ArrayList<>();
 
         try {
             URL allServices = new URL(allServicesAddress);
@@ -36,16 +44,34 @@ public class ServiceDiscovery {
             String line;
             while ((line = urlInput.readLine()) != null) address.append(line);
 
+            if(!address.toString().equals("")) {
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(address.toString());
+                Iterator keyIterator = jsonObject.keySet().iterator();
+
+                while (keyIterator.hasNext()) {
+                    String key = (String) keyIterator.next();
+                    services.add(key);
+                }
+
+            }
+
         } catch (MalformedURLException e) {
             System.out.println("Could not connect to Consul.");
             e.printStackTrace();
         } catch (IOException e) {
             System.out.println("Could not open input stream.");
             e.printStackTrace();
+        } catch (ParseException e) {
+            System.out.println("Could not parse JSON.");
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            System.out.println("JSON object conversion error.");
+            e.printStackTrace();
         }
 
 
-        return address.toString();
+        return services.toString();
     }
 
 }
