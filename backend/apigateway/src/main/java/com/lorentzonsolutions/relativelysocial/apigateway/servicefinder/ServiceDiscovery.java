@@ -43,8 +43,8 @@ public class ServiceDiscovery {
         try {
             String data = readURL(allServicesAddress);
 
-            if(!data.toString().equals("")) {
-                JSONObject jsonObject = (JSONObject) parser.parse(data.toString());
+            if(!data.equals("")) {
+                JSONObject jsonObject = (JSONObject) parser.parse(data);
 
                 for (Object o : jsonObject.keySet()) {
                     String key = (String) o;

@@ -1,6 +1,6 @@
 'use strict';
 
-var authService = angular.module('authService', [ngResource]);
+var authService = angular.module('authService', ['ngResource']);
 
 const LOGIN_PATH = "/login";
 const VALIDATION_PATH = "/validate";
