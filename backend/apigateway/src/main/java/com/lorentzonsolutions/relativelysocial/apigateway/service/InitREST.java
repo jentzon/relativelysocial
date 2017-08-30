@@ -25,7 +25,7 @@ public class InitREST {
         });
 
         get("/findservice", (req, res) -> {
-            logger.debug("TESTING!");
+            logger.error("TESTING!");
            return ServiceDiscovery.getInstance().getService(req.params("servicename"));
         });
 
