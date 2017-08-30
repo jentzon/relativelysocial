@@ -1,8 +1,8 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.service;
 
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.jetty.util.log.Logger;
+
 
 import static spark.Spark.*;
 
@@ -16,7 +16,7 @@ public class InitREST {
 
     public static void main(String[] args) {
 
-        Logger logger = LoggerFactory.getLogger("TEST");
+        Logger logger = org.eclipse.jetty.util.log.Log.getRootLogger();
 
         get("/", (req, res) -> "Relatively Social APIGateway controller greets you!");
 
