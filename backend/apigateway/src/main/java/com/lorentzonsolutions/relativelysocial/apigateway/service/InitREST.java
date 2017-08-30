@@ -16,7 +16,7 @@ public class InitREST {
 
     public static void main(String[] args) {
 
-        Logger logger = org.eclipse.jetty.util.log.Log.getRootLogger();
+        Logger logger = org.eclipse.jetty.util.log.Log.getLogger(InitREST.class);
 
         get("/", (req, res) -> "Relatively Social APIGateway controller greets you!");
 
