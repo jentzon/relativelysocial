@@ -24,6 +24,8 @@
 backend/apigateway/target
 backend/auth-service/target/
 backend/user-service/target/
+backend/family-service/target/
+backend/relations-service/target/
 
 *~
 
