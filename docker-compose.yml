@@ -53,6 +53,15 @@ services:
       - "consul"
       - "registrator"
       - "api-gateway"
+  family-service:
+    image: "relativelysocial/family-service"
+    container_name: "rs-familyservice"
+    ports:
+      - "4505:4567"
+    depends_on:
+      - "consul"
+      - "registrator"
+      - "api-gateway"
 # ------ NGINX FRONTEND CONTAINER ----- #
   web:
     image: nginx
