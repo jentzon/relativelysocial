@@ -18,4 +18,20 @@ public class ServiceInfo {
         this.serviceAddress = serviceAddress;
         this.servicePort = servicePort;
     }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public String getServiceAddress() {
+        return serviceAddress;
+    }
+
+    public String getServicePort() {
+        return servicePort;
+    }
+
+    public String getFullAddress() {
+        return "http://" + serviceAddress + ":" + servicePort;
+    }
 }

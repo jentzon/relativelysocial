@@ -30,9 +30,7 @@ public class ServiceDiscovery {
     private static String serviceAddress = "http://172.18.0.2:8500/v1/catalog/service/";
 
     private Logger logger = Log.getLogger(ServiceDiscovery.class);
-
     private JSONParser parser = new JSONParser();
-
     private static ServiceDiscovery instance;
 
     private ServiceDiscovery() {}
@@ -60,16 +58,16 @@ public class ServiceDiscovery {
 
         } catch (MalformedURLException e) {
             logger.warn("Could not connect to Consul.");
-            e.printStackTrace();
+            logger.warn(e.toString());
         } catch (IOException e) {
             logger.warn("Could not open input stream.");
-            e.printStackTrace();
+            logger.warn(e.toString());
         } catch (ParseException e) {
             logger.warn("Could not parse JSON.");
-            e.printStackTrace();
+            logger.warn(e.toString());
         } catch (ClassCastException e) {
             logger.warn("JSON object conversion error.");
-            e.printStackTrace();
+            logger.warn(e.toString());
         }
 
         return new ServicesList(services);
