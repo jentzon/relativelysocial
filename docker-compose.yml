@@ -20,7 +20,11 @@ services:
 
 # ------ RELATIVELY SOCIAL APPLICATION SERVICES ----- #
   api-gateway:
-    image: "relativelysocial/apigateway"
+    image: "relativelysocial/apigateway"- just: write some
+- yaml:
+  - [here, and]
+  - {it: updates, in: real-time}
+
     container_name: "rs-apigateway"
     ports:
       - "4501:4567"
