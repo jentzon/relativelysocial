@@ -43,16 +43,16 @@ services:
     depends_on:
       - "consul"
       - "registrator"
-      - "rs-apigateway"
-   relations-service:
-     image: "relativelysocial/relations-service"
-     container_name: "rs-relationsservice"
-     ports:
-       - "4504:4567"
-     depends_on:
-       - "consul"
-       - "registrator"
-       - "rs-apigateway"
+      - "api-gateway"
+  relations-service:
+    image: "relativelysocial/relations-service"
+    container_name: "rs-relationsservice"
+    ports:
+      - "4504:4567"
+    depends_on:
+      - "consul"
+      - "registrator"
+      - "api-gateway"
 # ------ NGINX FRONTEND CONTAINER ----- #
   web:
     image: nginx
