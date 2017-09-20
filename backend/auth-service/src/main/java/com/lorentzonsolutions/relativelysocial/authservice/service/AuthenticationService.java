@@ -4,6 +4,13 @@ import com.lorentzonsolutions.relativelysocial.authservice.model.AuthException;
 import com.lorentzonsolutions.relativelysocial.authservice.model.Token;
 import com.lorentzonsolutions.relativelysocial.authservice.tokens.JWTGenerator;
 
+/**
+ * Service class for the Auth controller.
+ *
+ * @author Johan Lorentzon
+ * @since 2017-07-02
+ */
+
 public class AuthenticationService {
 
     public Token authenticateUser(String user, String password) throws AuthException {

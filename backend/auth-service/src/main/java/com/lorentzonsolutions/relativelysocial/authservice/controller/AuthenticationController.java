@@ -12,7 +12,7 @@ import spark.Response;
 import static spark.Spark.*;
 
 /**
- * AuthenticationController for the Auth controller for Relatively Social.
+ * AuthenticationController for the Auth service for Relatively Social.
  *
  * @author Johan Lorentzon
  * @since 2017-07-02

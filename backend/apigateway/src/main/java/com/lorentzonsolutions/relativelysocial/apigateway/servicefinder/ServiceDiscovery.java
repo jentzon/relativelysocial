@@ -1,5 +1,7 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder;
 
+import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
+import com.lorentzonsolutions.relativelysocial.apigateway.model.ServicesList;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 import org.json.simple.JSONArray;
@@ -23,6 +25,7 @@ import java.util.List;
  */
 public class ServiceDiscovery {
 
+    // TODO. Check possibility to make env variables.
     private static String allServicesAddress = "http://172.18.0.2:8500/v1/catalog/services";
     private static String serviceAddress = "http://172.18.0.2:8500/v1/catalog/service/";
 
@@ -40,7 +43,7 @@ public class ServiceDiscovery {
     }
 
     //TODO. Fix error message handling.
-    public List<String> getAvailableServices() {
+    public ServicesList getAvailableServices() {
         List<String> services = new ArrayList<>();
 
         try {
@@ -69,15 +72,13 @@ public class ServiceDiscovery {
             e.printStackTrace();
         }
 
-
-        return services;
+        return new ServicesList(services);
     }
 
-    public String getService(String serviceName) throws ServiceNotFoundException, ServiceDiscoveryException {
+    public ServiceInfo getService(String serviceName) throws ServiceNotFoundException, ServiceDiscoveryException {
 
         logger.info("Trying to find service: " + serviceName);
 
-        StringBuilder response = new StringBuilder();
         String serviceAddress = "";
         String servicePort = "";
 
@@ -102,9 +103,7 @@ public class ServiceDiscovery {
                 if(serviceAddress.equals("")) throw new ServiceDiscoveryException("Service address not available.");
                 if(servicePort.equals("")) throw new ServiceDiscoveryException("Service port not available.");
             }
-            response.append(serviceAddress); response.append(":"); response.append(servicePort);
-
-            return response.toString();
+            return new ServiceInfo(serviceName, serviceAddress, servicePort);
 
         } catch (ParseException e) {
             logger.warn(e.toString());

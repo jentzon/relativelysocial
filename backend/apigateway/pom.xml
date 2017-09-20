@@ -14,6 +14,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -39,6 +40,12 @@
       <version>1.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.1</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -52,7 +59,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.lorentzonsolutions.relativelysocial.apigateway.service.InitREST</mainClass>
+              <mainClass>com.lorentzonsolutions.relativelysocial.apigateway.Main</mainClass>
               <classpathPrefix>dependency-jars/</classpathPrefix>
             </manifest>
           </archive>
@@ -85,7 +92,7 @@
               </descriptorRefs>
               <archive>
                 <manifest>
-                  <mainClass>com.lorentzonsolutions.relativelysocial.apigateway.service.InitREST</mainClass>
+                  <mainClass>com.lorentzonsolutions.relativelysocial.apigateway.Main</mainClass>
                 </manifest>
               </archive>
             </configuration>
