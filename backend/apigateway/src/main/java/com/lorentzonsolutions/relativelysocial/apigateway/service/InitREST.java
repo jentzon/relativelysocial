@@ -1,6 +1,10 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.service;
 
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceNotFoundException;
+import org.eclipse.jetty.http.HttpStatus;
+import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 
 
@@ -16,19 +20,40 @@ public class InitREST {
 
     public static void main(String[] args) {
 
-        Logger logger = org.eclipse.jetty.util.log.Log.getLogger(InitREST.class);
+        Logger logger = Log.getLogger(InitREST.class);
 
-        get("/", (req, res) -> "Relatively Social APIGateway controller greets you!");
+        get("/", (req, res) -> {
+            logger.info("Method: GET, Path: /");
+            return "Relatively Social APIGateway controller greets you!";
+        });
 
-        get("/help", (req, res) -> "Help is on the way!");
+        get("/help", (req, res) -> {
+            logger.info("Method: GET, Path: /help");
+            return "Help is on the way!";
+        });
 
         get("/listservices", (req, res) -> {
+            logger.info("Method: GET, Path: /listservices");
             return ServiceDiscovery.getInstance().getAvailableServices();
         });
 
         get("/findservice", (req, res) -> {
-            logger.debug("TEST!");
-           return ServiceDiscovery.getInstance().getService(req.params("servicename"));
+            logger.info("Method: GET, Path: /findservice");
+
+            String response = "";
+
+            try {
+                response = ServiceDiscovery.getInstance().getService(req.queryParams("servicename"));
+            }
+            catch (ServiceDiscoveryException | ServiceNotFoundException e) {
+                logger.warn(e.toString());
+
+                if(e instanceof ServiceDiscoveryException) res.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
+
+                res.status(HttpStatus.NO_CONTENT_204);
+            }
+
+            return response;
         });
 
     }

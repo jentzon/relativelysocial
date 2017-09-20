@@ -1,5 +1,7 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder;
 
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,7 +13,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class ServiceDiscovery {
 
     private static String allServicesAddress = "http://172.18.0.2:8500/v1/catalog/services";
     private static String serviceAddress = "http://172.18.0.2:8500/v1/catalog/service/";
+
+    private Logger logger = Log.getLogger(ServiceDiscovery.class);
 
     private JSONParser parser = new JSONParser();
 
@@ -53,16 +56,16 @@ public class ServiceDiscovery {
             }
 
         } catch (MalformedURLException e) {
-            System.out.println("Could not connect to Consul.");
+            logger.warn("Could not connect to Consul.");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Could not open input stream.");
+            logger.warn("Could not open input stream.");
             e.printStackTrace();
         } catch (ParseException e) {
-            System.out.println("Could not parse JSON.");
+            logger.warn("Could not parse JSON.");
             e.printStackTrace();
         } catch (ClassCastException e) {
-            System.out.println("JSON object conversion error.");
+            logger.warn("JSON object conversion error.");
             e.printStackTrace();
         }
 
@@ -70,30 +73,46 @@ public class ServiceDiscovery {
         return services;
     }
 
-    public String getService(String serviceName) {
+    public String getService(String serviceName) throws ServiceNotFoundException, ServiceDiscoveryException {
+
+        logger.info("Trying to find service: " + serviceName);
+
         StringBuilder response = new StringBuilder();
         String serviceAddress = "";
         String servicePort = "";
+
         try {
             String data = readURL(ServiceDiscovery.serviceAddress + serviceName);
             JSONArray jsonArray = (JSONArray) parser.parse(data);
-            for(Object o : jsonArray) {
-                if(((JSONObject) o).get("ServiceName").equals(serviceName)) {
-                    serviceAddress = (String) ((JSONObject) o).get("ServiceAddress");
-                    servicePort = (String) ((JSONObject) o).get("ServicePort");
-                }
-                serviceAddress = !serviceAddress.equals("") ? "Address: " + ServiceDiscovery.serviceAddress : "Address: N/A";
-                servicePort = !servicePort.equals("") ? "Port: " + servicePort : "Port: N/A";
-            }
-            response.append(serviceAddress); response.append("\n"); response.append(servicePort);
 
-        } catch (IOException | ParseException e) {
-            response = new StringBuilder();
-            if(e instanceof ParseException) response.append("Could not parse JSON data.");
-            if(e instanceof IOException) response.append("IO Exception.");
-            e.printStackTrace();
+            if(jsonArray.isEmpty()) throw new ServiceNotFoundException();
+
+            for(Object o : jsonArray) {
+
+                if(((JSONObject) o).get("ServiceName").equals(serviceName)) {
+
+                    logger.info("Service found, accessing address and port...");
+
+                    serviceAddress = ((JSONObject) o).get("ServiceAddress").toString();
+                    servicePort = ((JSONObject) o).get("ServicePort").toString();
+
+                    logger.info("Address: " + serviceAddress + " Port: " + servicePort);
+                }
+
+                if(serviceAddress.equals("")) throw new ServiceDiscoveryException("Service address not available.");
+                if(servicePort.equals("")) throw new ServiceDiscoveryException("Service port not available.");
+            }
+            response.append(serviceAddress); response.append(":"); response.append(servicePort);
+
+            return response.toString();
+
+        } catch (ParseException e) {
+            logger.warn(e.toString());
+            throw new ServiceDiscoveryException("Error parsing JSON.");
+        } catch (IOException e) {
+            logger.warn(e.toString());
+            throw new ServiceDiscoveryException("Error opening URL stream.");
         }
-        return response.toString();
     }
 
     private String readURL(String urlAddress) throws IOException {
