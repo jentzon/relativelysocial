@@ -28,8 +28,8 @@ import java.util.List;
 public class ServiceDiscovery {
 
     // TODO. Check possibility to make env variables.
-    private static String allServicesAddress = "http://172.18.0.2:8500/v1/catalog/services";
-    private static String serviceAddress = "http://172.18.0.2:8500/v1/catalog/service/";
+    private static String allServicesAddress = "http://172.19.0.3:8500/v1/catalog/services";
+    private static String serviceAddress = "http://172.19.0.3:8500/v1/catalog/service/";
 
     private Logger logger = Log.getLogger(ServiceDiscovery.class);
     private JSONParser parser = new JSONParser();
