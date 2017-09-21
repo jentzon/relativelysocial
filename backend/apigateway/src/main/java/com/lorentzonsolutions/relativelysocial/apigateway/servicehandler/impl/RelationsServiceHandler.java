@@ -1,21 +1,24 @@
-package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler;
+package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl;
 
 import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscoveryException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceNotFoundException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandler;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandlerFacotory;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceUnavailableException;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 
-
 /**
- * Handler for user service.
+ * Handler for relations service.
  *
  * @author Johan Lorentzon
- * @since 2017-09-20
+ * @since 2017-09-21
  *
  */
-public class UserServiceHandler implements ServiceHandler {
+
+public class RelationsServiceHandler implements ServiceHandler {
 
     private ServiceDiscovery serviceDiscovery;
     private ServiceInfo serviceInfo;
@@ -24,14 +27,14 @@ public class UserServiceHandler implements ServiceHandler {
 
     private boolean available = false;
 
-    public UserServiceHandler() {
+    public RelationsServiceHandler() {
         serviceDiscovery = ServiceDiscovery.getInstance();
         this.connect();
     }
 
     @Override
-    public ServiceInfo getServiceInfo() throws ServiceUnavailableException{
-        if(!isAvailable()) throw new ServiceUnavailableException(ServiceHandlerFacotory.USER_SERVICE + " is not available");
+    public ServiceInfo getServiceInfo() throws ServiceUnavailableException {
+        if(!isAvailable()) throw new ServiceUnavailableException(ServiceHandlerFacotory.RELATIONS_SERVICE + " is not available");
         return this.serviceInfo;
     }
 
@@ -39,7 +42,7 @@ public class UserServiceHandler implements ServiceHandler {
     public void connect() {
 
         try {
-            serviceInfo = serviceDiscovery.getService(ServiceHandlerFacotory.USER_SERVICE);
+            serviceInfo = serviceDiscovery.getService(ServiceHandlerFacotory.RELATIONS_SERVICE);
             available = true;
 
         } catch (ServiceNotFoundException | ServiceDiscoveryException e) {
