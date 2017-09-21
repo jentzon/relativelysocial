@@ -1,8 +1,8 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.service;
 
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
-import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscoveryException;
-import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceNotFoundException;
+import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotFoundException;
 
 /**
  * Service for APIController class.

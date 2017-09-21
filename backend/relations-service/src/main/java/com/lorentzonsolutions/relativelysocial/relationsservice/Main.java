@@ -10,6 +10,7 @@ import com.lorentzonsolutions.relativelysocial.relationsservice.service.Relation
  * @since 2017-09-20
  *
  */
+
 public class Main {
     public static void main(String[] args) {
         new RelationsController(new RelationsService());

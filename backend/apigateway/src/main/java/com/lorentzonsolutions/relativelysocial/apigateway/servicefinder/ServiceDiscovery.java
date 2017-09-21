@@ -1,5 +1,7 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder;
 
+import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotFoundException;
 import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
 import com.lorentzonsolutions.relativelysocial.apigateway.model.ServicesList;
 import org.eclipse.jetty.util.log.Log;

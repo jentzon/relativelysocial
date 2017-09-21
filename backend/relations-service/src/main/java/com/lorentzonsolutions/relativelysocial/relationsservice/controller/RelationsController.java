@@ -26,7 +26,6 @@ public class RelationsController {
 
         get("/help", this::help, gson::toJson);
 
-        System.out.println("Relations controller running...");
     }
 
 

@@ -1,5 +1,6 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler;
 
+import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotSupportedException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl.AuthServiceHandler;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl.RelationsServiceHandler;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl.UserServiceHandler;
@@ -19,7 +20,7 @@ public class ServiceHandlerFacotory {
     public static final String FAMILY_SERVICE = "family-service";
     public static final String RELATIONS_SERVICE = "relations-service";
 
-    public ServiceHandler getServiceHandler(String serviceName) throws ServiceNotSupportedException{
+    public ServiceHandler getServiceHandler(String serviceName) throws ServiceNotSupportedException {
         if(serviceName.equals(USER_SERVICE)) return new UserServiceHandler();
         if(serviceName.equals(AUTH_SERVICE)) return new AuthServiceHandler();
         if(serviceName.equals(RELATIONS_SERVICE)) return new RelationsServiceHandler();

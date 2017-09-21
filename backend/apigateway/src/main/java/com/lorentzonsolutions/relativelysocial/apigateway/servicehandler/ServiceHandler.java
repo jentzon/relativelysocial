@@ -1,5 +1,6 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler;
 
+import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceUnavailableException;
 import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
 
 /**
