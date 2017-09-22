@@ -4,9 +4,9 @@ package com.lorentzonsolutions.relativelysocial.apigateway.controller;
 import com.google.gson.Gson;
 import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotSupportedException;
 import com.lorentzonsolutions.relativelysocial.apigateway.service.APIService;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceDiscoveryException;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotFoundException;
-import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandler;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceNotFoundException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandlerFacotory;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl.UserServiceHandler;
 import org.eclipse.jetty.http.HttpStatus;
@@ -18,6 +18,7 @@ import spark.Request;
 import spark.Response;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import static spark.Spark.get;
@@ -35,6 +36,8 @@ public class APIController {
 
         this.service = service;
         this.gson = new Gson();
+
+        ServiceDiscovery.getInstance().writeAuthConnectionInfoToFile();
 
         get("/listservices", this::listservices, gson::toJson);
 
@@ -77,12 +80,20 @@ public class APIController {
             UserServiceHandler handler = (UserServiceHandler) ServiceHandlerFacotory.getServiceHandler(ServiceHandlerFacotory.USER_SERVICE);
             Map<String, String> body = new HashMap<>();
             JSONObject requestBody = new JSONObject(request.body());
+
             body.put("email", requestBody.getString("email"));
             body.put("firstName", requestBody.getString("firstName"));
             body.put("lastName", requestBody.getString("lastName"));
             body.put("password", requestBody.getString("password"));
 
-            handler.POSTMethod("/signup", body);
+            Map<String, String> headers = new HashMap<>();
+            Iterator headerIterator = request.headers().iterator();
+            while(headerIterator.hasNext()) {
+                String headerKey = (String) headerIterator.next();
+                headers.put(headerKey, request.headers(headerKey));
+            }
+
+            handler.POSTMethod("/createuser", body, headers);
 
         } catch (ServiceNotSupportedException e) {
             logger.warn("Could not reach service.");

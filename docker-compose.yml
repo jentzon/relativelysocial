@@ -22,14 +22,19 @@ services:
   api-gateway:
     image: "relativelysocial/apigateway"
     container_name: "rs-apigateway"
+    volumes:
+      - ./configs/:/home/configs
     ports:
       - "4501:4567"
     depends_on:
       - "consul"
       - "registrator"
+      - "auth-service"
   auth-service:
     image: "relativelysocial/auth-service"
     container_name: "rs-authservice"
+    volumes:
+      - ./configs/:/home/configs
     ports:
       - "4502:4567"
     depends_on:
@@ -38,6 +43,8 @@ services:
   user-service:
     image: "relativelysocial/user-service"
     container_name: "rs-userservice"
+    volumes:
+      - ./configs/:/home/configs
     ports:
       - "4503:4567"
     depends_on:
@@ -47,6 +54,8 @@ services:
   relations-service:
     image: "relativelysocial/relations-service"
     container_name: "rs-relationsservice"
+    volumes:
+      - ./configs/:/home/configs
     ports:
       - "4504:4567"
     depends_on:
@@ -56,6 +65,8 @@ services:
   family-service:
     image: "relativelysocial/family-service"
     container_name: "rs-familyservice"
+    volumes:
+      - ./configs/:/home/configs
     ports:
       - "4505:4567"
     depends_on:

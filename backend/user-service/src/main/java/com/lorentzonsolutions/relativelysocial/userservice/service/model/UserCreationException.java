@@ -1,4 +1,4 @@
-package com.lorentzonsolutions.relativelysocial.userservice.service.exceptions;
+package com.lorentzonsolutions.relativelysocial.userservice.service.model;
 
 public class UserCreationException extends Exception {
 

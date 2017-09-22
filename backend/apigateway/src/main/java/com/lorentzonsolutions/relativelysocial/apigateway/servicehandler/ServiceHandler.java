@@ -1,9 +1,7 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler;
 
 import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceUnavailableException;
-import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
-
-import java.util.Map;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.models.ServiceInfo;
 
 /**
  * Interface for handlers to communicate with services.

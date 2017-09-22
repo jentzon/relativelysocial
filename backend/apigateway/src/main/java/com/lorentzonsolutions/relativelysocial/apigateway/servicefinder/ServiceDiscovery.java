@@ -1,9 +1,10 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder;
 
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceDiscoveryException;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotFoundException;
-import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
-import com.lorentzonsolutions.relativelysocial.apigateway.model.ServicesList;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceNotFoundException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.models.ServiceInfo;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.models.ServicesList;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandlerFacotory;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 import org.json.simple.JSONArray;
@@ -11,9 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ public class ServiceDiscovery {
     // TODO. Check possibility to make env variables.
     private static String allServicesAddress = "http://172.19.0.3:8500/v1/catalog/services";
     private static String serviceAddress = "http://172.19.0.3:8500/v1/catalog/service/";
+    private static String systemPropsFile = "/home/configs/auth-service-address.props";
 
     private Logger logger = Log.getLogger(ServiceDiscovery.class);
     private JSONParser parser = new JSONParser();
@@ -40,6 +40,29 @@ public class ServiceDiscovery {
     public static ServiceDiscovery getInstance() {
         if(instance == null) instance = new ServiceDiscovery();
         return instance;
+    }
+
+    public void writeAuthConnectionInfoToFile() {
+        try {
+            ServiceInfo authServiceInfo = getService(ServiceHandlerFacotory.AUTH_SERVICE);
+            String authServiceIPandPort = authServiceInfo.getServiceAddress() + ":" + authServiceInfo.getServicePort();
+
+            File file = new File(systemPropsFile);
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(authServiceIPandPort);
+            writer.close();
+
+            logger.info("Auth-service info saved to system properties file.");
+
+        } catch (ServiceNotFoundException | ServiceDiscoveryException e) {
+            logger.warn("Could not access auth service information. No info in system file has been saved.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            logger.warn("Could not create writer to file.");
+            e.printStackTrace();
+        }
+
     }
 
     //TODO. Fix error message handling.

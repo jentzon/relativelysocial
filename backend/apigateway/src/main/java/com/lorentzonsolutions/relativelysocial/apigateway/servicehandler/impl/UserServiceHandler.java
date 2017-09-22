@@ -1,9 +1,9 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl;
 
-import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.models.ServiceInfo;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceDiscoveryException;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotFoundException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceNotFoundException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandler;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandlerFacotory;
 import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceUnavailableException;
@@ -12,9 +12,7 @@ import org.eclipse.jetty.util.log.Logger;
 import org.json.simple.JSONObject;
 import spark.utils.IOUtils;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -70,7 +68,7 @@ public class UserServiceHandler implements ServiceHandler {
         return available && (serviceInfo != null);
     }
 
-    public String POSTMethod(String path, Map<String, String> bodyParams) {
+    public String POSTMethod(String path, Map<String, String> bodyParams, Map<String, String> headers) {
 
         JSONObject body = new JSONObject();
 
@@ -78,15 +76,25 @@ public class UserServiceHandler implements ServiceHandler {
             body.put(entry.getKey(), entry.getValue());
         }
 
+
         String urlAddress = this.serviceInfo.getFullAddress() + path;
 
         try {
             URL url = new URL(urlAddress);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
             connection.setDoOutput(true);
             connection.setDoInput(true);
+
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+            // connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("Authorization", acquireAdminToken());
+
+            // Additional headers.
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                connection.setRequestProperty(entry.getKey(), entry.getValue());
+            }
 
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(body.toString().getBytes("UTF-8"));
@@ -106,5 +114,9 @@ public class UserServiceHandler implements ServiceHandler {
 
         return null;
 
+    }
+
+    private String acquireAdminToken() {
+        return "test";
     }
 }

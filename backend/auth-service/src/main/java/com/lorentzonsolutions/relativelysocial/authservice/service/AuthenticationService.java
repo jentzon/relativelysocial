@@ -30,9 +30,9 @@ public class AuthenticationService {
 
 
 
-    // TODO. Check with userservice if user exists.
+    // TODO. Connect to DB for user information.
     private boolean validateUser(String user, String password) {
-        if(user.equals("test") && password.equals("test")) return true;
+        if(user.equals("admin") && password.equals("admin")) return true;
         else return false;
     }
 }

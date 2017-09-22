@@ -1,4 +1,4 @@
-package com.lorentzonsolutions.relativelysocial.apigateway.model;
+package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.models;
 
 /**
  * Model object for service information.

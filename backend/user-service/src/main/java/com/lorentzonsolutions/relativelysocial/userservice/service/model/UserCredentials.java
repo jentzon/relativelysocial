@@ -1,6 +1,5 @@
 package com.lorentzonsolutions.relativelysocial.userservice.service.model;
 
-import com.lorentzonsolutions.relativelysocial.userservice.service.exceptions.UserCreationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.Request;

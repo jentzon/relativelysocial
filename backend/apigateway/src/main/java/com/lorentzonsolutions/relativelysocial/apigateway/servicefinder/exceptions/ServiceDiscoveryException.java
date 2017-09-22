@@ -1,4 +1,4 @@
-package com.lorentzonsolutions.relativelysocial.apigateway.exceptions;
+package com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions;
 
 
 public class ServiceDiscoveryException extends Exception {

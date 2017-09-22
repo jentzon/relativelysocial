@@ -1,9 +1,9 @@
 package com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl;
 
-import com.lorentzonsolutions.relativelysocial.apigateway.model.ServiceInfo;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.models.ServiceInfo;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceDiscovery;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceDiscoveryException;
-import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceNotFoundException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceDiscoveryException;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceNotFoundException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandler;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandlerFacotory;
 import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceUnavailableException;
