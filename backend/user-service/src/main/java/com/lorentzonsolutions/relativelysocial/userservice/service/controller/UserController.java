@@ -58,8 +58,10 @@ public class UserController {
             requestValidator.validateRequest(request);
         }
         catch (RequestValidationException e) {
-            logger.warn("Request not valid.");
+            logger.warn("Request could not be validated.");
+            logger.warn(e.getMessage());
             response.status(HttpStatus.UNAUTHORIZED_401);
+            e.printStackTrace();
             return e.getMessage();
         }
 

@@ -69,7 +69,7 @@ public class AuthenticationController {
 
         try {
             if (service.validateToken(extractTokenValue(tokenHeader))) {
-                res.status(200);
+                res.status(202);
                 System.out.println("Token valid.");
                 return new SimpleResponse("Token valid.");
             } else {
@@ -79,6 +79,7 @@ public class AuthenticationController {
             }
         }
         catch (AuthException e) {
+            res.status(e.getRestStatusCode());
             return e;
         }
     }

@@ -8,6 +8,7 @@ import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.ServiceD
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceDiscoveryException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicefinder.exceptions.ServiceNotFoundException;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.ServiceHandlerFacotory;
+import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl.AuthServiceHandler;
 import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.impl.UserServiceHandler;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.util.log.Log;
@@ -78,6 +79,8 @@ public class APIController {
 
         try {
             UserServiceHandler handler = (UserServiceHandler) ServiceHandlerFacotory.getServiceHandler(ServiceHandlerFacotory.USER_SERVICE);
+            AuthServiceHandler authServiceHandler = (AuthServiceHandler) ServiceHandlerFacotory.getServiceHandler(ServiceHandlerFacotory.AUTH_SERVICE);
+
             Map<String, String> body = new HashMap<>();
             JSONObject requestBody = new JSONObject(request.body());
 
@@ -93,18 +96,21 @@ public class APIController {
                 headers.put(headerKey, request.headers(headerKey));
             }
 
-            handler.POSTMethod("/createuser", body, headers);
+            headers.put("Authorization", "Bearer " + authServiceHandler.acquireAdminToken());
+
+            return handler.POSTMethod("/createuser", body, headers);
 
         } catch (ServiceNotSupportedException e) {
             logger.warn("Could not reach service.");
+            logger.warn(e.getMessage());
             e.printStackTrace();
+            return e.getMessage();
         } catch (JSONException e) {
             logger.warn("Request body error");
             e.printStackTrace();
+            return e.getMessage();
         }
 
-        // TODO. User service.
-        return null;
     }
 
 

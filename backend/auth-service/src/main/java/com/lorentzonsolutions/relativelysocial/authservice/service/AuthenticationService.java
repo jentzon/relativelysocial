@@ -31,6 +31,7 @@ public class AuthenticationService {
 
 
     // TODO. Connect to DB for user information.
+    // TODO. Read from sys file for admin info if admin is making request.
     private boolean validateUser(String user, String password) {
         if(user.equals("admin") && password.equals("admin")) return true;
         else return false;

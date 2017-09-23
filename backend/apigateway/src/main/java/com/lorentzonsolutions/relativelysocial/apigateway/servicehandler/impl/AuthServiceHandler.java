@@ -9,6 +9,18 @@ import com.lorentzonsolutions.relativelysocial.apigateway.servicehandler.Service
 import com.lorentzonsolutions.relativelysocial.apigateway.exceptions.ServiceUnavailableException;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+import spark.utils.IOUtils;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Handler for auth service.
@@ -32,7 +44,8 @@ public class AuthServiceHandler implements ServiceHandler {
 
     @Override
     public ServiceInfo getServiceInfo() throws ServiceUnavailableException {
-        if(!isAvailable()) throw new ServiceUnavailableException(ServiceHandlerFacotory.AUTH_SERVICE + " is not available");
+        if (!isAvailable())
+            throw new ServiceUnavailableException(ServiceHandlerFacotory.AUTH_SERVICE + " is not available");
         return this.serviceInfo;
     }
 
@@ -55,5 +68,49 @@ public class AuthServiceHandler implements ServiceHandler {
     @Override
     public boolean isAvailable() {
         return available && (serviceInfo != null);
+    }
+
+    public String acquireAdminToken() {
+        logger.info("Creating admin token for request.");
+
+        JSONObject body = new JSONObject();
+        String urlAddress = this.serviceInfo.getFullAddress() + "/login";
+
+        try {
+            URL url = new URL(urlAddress);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestMethod("POST");
+
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // TODO. Read from sysfile.
+            body.put("user", "admin");
+            body.put("pass", "admin");
+
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(body.toString().getBytes("UTF-8"));
+            outputStream.close();
+
+            JSONObject response = new JSONObject(IOUtils.toString(connection.getInputStream()));
+            String adminToken = response.getString("token");
+            logger.info("Admin token created: " + adminToken);
+
+            return adminToken;
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

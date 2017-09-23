@@ -1,10 +1,16 @@
 package com.lorentzonsolutions.relativelysocial.userservice.service.requestvalidation;
 
+import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 import spark.Request;
+import spark.utils.IOUtils;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 /**
  * Helper class for validating incoming requests. Requests can only be made from the API gateway service.
@@ -55,10 +61,42 @@ public class RequestValidator {
         String tokenValue = extractTokenValue(request.headers("Authorization"));
         logger.info("Token: " + tokenValue);
 
+        String authURL = "http://" + authServiceAddress + "/validate";
+
+        URL url;
+        HttpURLConnection connection = null;
+
+        try {
+            url = new URL(authURL);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestProperty("Authorization", "Bearer " + tokenValue);
+            connection.setRequestMethod("GET");
+
+            connection.connect();
+
+            int responseCode = connection.getResponseCode();
+
+            if(responseCode == HttpStatus.ACCEPTED_202) {
+                logger.info("Validation success.");
+                return;
+            }
+            else {
+                logger.info("Unauthorized request. Rejected.");
+                throw new RequestValidationException("Unauthorized request");
+            }
+
+
+        } catch (IOException e) {
+            logger.warn("Could not connect to auth-service.");
+            e.printStackTrace();
+            throw new RequestValidationException(e);
+        }
     }
 
-    private String extractTokenValue(String authorization) {
-        logger.info("EXTRACT!");
-        return authorization;
+    private String extractTokenValue(String authorization) throws RequestValidationException {
+        String[] values = authorization.split("\\s");
+        if(values.length < 2) throw new RequestValidationException("Auth header has invalid format.");
+        return values[1];
     }
 }

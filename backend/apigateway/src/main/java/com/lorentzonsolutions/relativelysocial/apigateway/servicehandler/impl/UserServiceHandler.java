@@ -85,13 +85,8 @@ public class UserServiceHandler implements ServiceHandler {
 
             connection.setDoOutput(true);
             connection.setDoInput(true);
-
             connection.setRequestMethod("POST");
 
-            // connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            connection.setRequestProperty("Authorization", acquireAdminToken());
-
-            // Additional headers.
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 connection.setRequestProperty(entry.getKey(), entry.getValue());
             }
@@ -100,23 +95,17 @@ public class UserServiceHandler implements ServiceHandler {
             outputStream.write(body.toString().getBytes("UTF-8"));
             outputStream.close();
 
-            String result = IOUtils.toString(connection.getInputStream());
+            return IOUtils.toString(connection.getInputStream());
 
-            logger.info("RESPONSE: " + "\n" + result);
 
         } catch (MalformedURLException e) {
-            logger.warn("Malformed URL: " + e.toString());
+            logger.warn("Malformed URL: " + e.getMessage());
             e.printStackTrace();
+            return e.getMessage();
         } catch (IOException e) {
-            logger.warn("IOException" + e.toString());
+            logger.warn("IOException" + e.getMessage());
             e.printStackTrace();
+            return e.getMessage();
         }
-
-        return null;
-
-    }
-
-    private String acquireAdminToken() {
-        return "test";
     }
 }
